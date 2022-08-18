@@ -1,0 +1,8 @@
+config
+HEAD
+info/
+refs/
+branches/
+description
+hooks/
+objects/
