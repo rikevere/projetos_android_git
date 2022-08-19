@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import br.com.alura.agenda.R;
+import br.com.alura.agenda.dao.AlunoDAO;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
@@ -20,6 +21,12 @@ public class ListaAlunosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // codigo para chamar uma nova activity (layout de tela)
         setContentView(R.layout.activity_lista_alunos);
+
+        AlunoDAO dao = new AlunoDAO();
+
+
+
+        // a função abaixo cria o título no formulário
         setTitle("Lista de alunos");
         List<String> alunos = new ArrayList<>(
                 Arrays.asList("Alex", "Fran", "Jose", "Maria", "Ana"));
@@ -27,6 +34,6 @@ public class ListaAlunosActivity extends AppCompatActivity {
         listaDeAlunos.setAdapter(new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
-                alunos));
+                dao.todos()));
     }
 }
