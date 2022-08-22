@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText android:id="@+id/activiti_formulario_aluno_nome"
+    <EditText
+        android:id="@+id/activiti_formulario_aluno_nome"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:hint="Nome"
-        android:inputType="textCapWords"
-        android:layout_height="wrap_content" />
+        android:inputType="textCapWords" />
     <EditText android:id="@+id/activiti_formulario_aluno_telefone"
         android:layout_width="match_parent"
         android:layout_margin="8dp"
