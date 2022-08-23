@@ -1,5 +1,7 @@
 package br.com.alura.agenda.dao;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,20 +15,15 @@ public class AlunoDAO {
     public void salva(Aluno aluno) {
         aluno.setId(contadorDeIds);
         alunos.add(aluno);
+        atualizaIds();
+    }
+
+    private void atualizaIds() {
         contadorDeIds++;
     }
 
     public void edita(Aluno aluno) {
-        Aluno alunoEncontrado = null;
-        //for para percorrer a lista de alunos do DAO
-        for (Aluno a :
-                alunos) {
-            //caso o ID em edição "a.getId()" seja igual a um ID existente na lista
-            if (a.getId() == aluno.getId()) {
-                //alunoEncontrado é definido com os dados vindos da edição
-                alunoEncontrado = a;
-            }
-        }
+        Aluno alunoEncontrado = buscaAlunoPeloId(aluno);
         //faz nova validação para ver se encontrou algum aluno com o mesmo ID
         if (alunoEncontrado != null) {
             //quando encontra, seta a var "posicaoDoAluno" com a posição na lista onde
@@ -37,6 +34,20 @@ public class AlunoDAO {
             // arraylist.set(int index, E element)
             alunos.set(posicaoDoAluno, aluno);
         }
+    }
+
+    @Nullable
+    private Aluno buscaAlunoPeloId(Aluno aluno) {
+        //for para percorrer a lista de alunos do DAO
+        for (Aluno a :
+                alunos) {
+            //caso o ID em edição "a.getId()" seja igual a um ID existente na lista
+            if (a.getId() == aluno.getId()) {
+                //alunoEncontrado é definido com os dados vindos da edição
+                return a;
+            }
+        }
+        return null;
     }
 
     public List<Aluno> todos() {

@@ -1,5 +1,9 @@
 package br.com.alura.agenda.ui.activity;
 
+import static br.com.alura.agenda.ui.activity.ConstantesActivities.CHAVE_ALUNO_LEVA_DADO;
+import static br.com.alura.agenda.ui.activity.ConstantesActivities.TITULO_APPBAR_LISTA_ALUNO;
+
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +21,6 @@ import br.com.alura.agenda.model.Aluno;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
-    public static final String TITULO_APPBAR = "Lista de alunos";
     private ListView listViewDelistaDeAlunos;
     private FloatingActionButton botaoNovoAluno;
     private final AlunoDAO dao = new AlunoDAO();
@@ -28,7 +31,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
         // codigo para chamar uma nova activity (layout de tela)
         setContentView(R.layout.activity_lista_alunos);
         // a função abaixo cria o título no formulário
-        setTitle(TITULO_APPBAR);
+        setTitle(TITULO_APPBAR_LISTA_ALUNO);
         inicializacaoDosCampos();
         configuraFabNovoAluno();
 
@@ -94,7 +97,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
         //mas para que funcione o recurso precisa ser serializável (transformado para Bite)
         //de modo que a classe de origem precise ser declarada como "implements Serializable"
         //neste caso a classe "aluno"
-        vaiParaFormularioActivity.putExtra("aluno", alunoEscolhido);
+        vaiParaFormularioActivity.putExtra(CHAVE_ALUNO_LEVA_DADO, alunoEscolhido);
         startActivity(vaiParaFormularioActivity);
     }
 
