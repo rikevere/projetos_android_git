@@ -93,7 +93,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         String nome = campoNome.getText().toString();
         String telefone = campoTelefone.getText().toString();
         String email = campoEmail.getText().toString();
-
+        //comentario
         aluno.setNome(nome);
         aluno.setTelefone(telefone);
         aluno.setEmail(email);
