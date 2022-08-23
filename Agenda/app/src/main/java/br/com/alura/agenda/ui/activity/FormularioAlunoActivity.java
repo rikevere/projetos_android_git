@@ -1,12 +1,15 @@
 package br.com.alura.agenda.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
 
 import br.com.alura.agenda.R;
 import br.com.alura.agenda.dao.AlunoDAO;
@@ -19,6 +22,8 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private EditText campoTelefone;
     private EditText campoEmail;
     private Button botaoSalvar;
+    private Aluno aluno;
+    private List<Aluno> tamanhoListaAlunos;
     final AlunoDAO dao = new AlunoDAO();
 
     @Override
@@ -29,6 +34,16 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         setTitle(TITULO_APPBAR);
         inicializacaoDosCampos();
         configuraBotaoSalvar();
+        Intent dados = getIntent();
+        if (dados.hasExtra("aluno")){
+            aluno = (Aluno) dados.getSerializableExtra("aluno");
+            campoNome.setText(aluno.getNome());
+            campoTelefone.setText(aluno.getTelefone());
+            campoEmail.setText(aluno.getEmail());
+        } else {
+            aluno = new Aluno();
+        }
+
     }
 
     private void configuraBotaoSalvar() {
@@ -37,8 +52,18 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         botaoSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Aluno alunoCriado = criaAluno();
-                salva(alunoCriado);
+                preencheAluno();
+                if (aluno.temIdValido()){
+                    dao.edita(aluno);
+                } else {
+                    dao.salva(aluno);
+                }
+                finish();
+                Log.i("Nome Salvo", "" + aluno.getNome());
+                Log.i("Email Salvo", "" + aluno.getEmail());
+                Log.i("Telefone Salvo", "" + aluno.getTelefone());
+                Log.i("ID Salvo", "" + aluno.getId());
+                Log.i("ID valido", "" + aluno.temIdValido());
 
             }
         });
@@ -53,19 +78,19 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         campoNome = findViewById(R.id.activiti_formulario_aluno_nome);
         campoTelefone = findViewById(R.id.activiti_formulario_aluno_telefone);
         campoEmail = findViewById(R.id.activiti_formulario_aluno_email);
+        tamanhoListaAlunos = dao.todos();
     }
 
-    private void salva(Aluno aluno) {
-        dao.salva(aluno);
-        finish();
-    }
-
-    @NonNull
-    private Aluno criaAluno() {
+    private void preencheAluno() {
         String nome = campoNome.getText().toString();
         String telefone = campoTelefone.getText().toString();
         String email = campoEmail.getText().toString();
-        Aluno alunoCriado = new Aluno(nome, telefone, email);
-        return alunoCriado;
+
+        aluno.setNome(nome);
+        aluno.setTelefone(telefone);
+        aluno.setEmail(email);
+
+
+
     }
 }

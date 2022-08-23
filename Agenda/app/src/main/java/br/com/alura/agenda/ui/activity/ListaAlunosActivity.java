@@ -8,12 +8,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import java.util.List;
 import br.com.alura.agenda.R;
 import br.com.alura.agenda.dao.AlunoDAO;
+import br.com.alura.agenda.model.Aluno;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
@@ -71,15 +72,25 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
     private void configuraLista() {
         //o comando abaixo adapta uma lista ao componente "listview" fixado no layout
+        List<Aluno> alunos = dao.todos();
         listaDeAlunos.setAdapter(new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
-                dao.todos()));
+                alunos));
         listaDeAlunos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ListaAlunosActivity.this, "" + position, Toast.LENGTH_SHORT).show();
-                Log.i("posicao aluno", "" + position);
+                Aluno alunoEscolhido = alunos.get(position);
+                Toast.makeText(ListaAlunosActivity.this, "" + alunoEscolhido, Toast.LENGTH_SHORT).show();
+                Log.i("posicao aluno", "" + alunoEscolhido);
+                //comando abaixo cria uma nova variável "Intent" que aponta para qual activity eu quero abrir
+                Intent vaiParaFormularioActivity = new Intent(ListaAlunosActivity.this, FormularioAlunoActivity.class);
+                //Esta variável conta com um recurso chamado "putExtra", que permite enviar dados para outra activity
+                //mas para que funcione o recurso precisa ser serializável (transformado para Bite)
+                //de modo que a classe de origem precise ser declarada como "implements Serializable"
+                //neste caso a classe "aluno"
+                vaiParaFormularioActivity.putExtra("aluno", alunoEscolhido);
+                startActivity(vaiParaFormularioActivity);
             }
         });
 
