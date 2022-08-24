@@ -6,11 +6,14 @@ import static br.com.alura.agenda.ui.activity.ConstantesActivities.TITULO_APPBAR
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,6 +39,30 @@ public class ListaAlunosActivity extends AppCompatActivity {
         inicializacaoDosCampos();
         configuraFabNovoAluno();
         configuraLista();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        /*menu.add("Remover"); ----  Este comando adiciona um context denominado no Listview
+        menu.add("Item 1 - Menu");
+        menu.add("Item 2 - Menu");
+        menu.add("Item 3 - Menu");*/
+
+        /* o comando abaixo serve para incorporar um arquivo de layout de menu
+        para aumentar "inflar" as opções na lista de menu conforme arquivo
+        neste caso, do arquivo "activity_lista_alunos_menu.xml"*/
+        getMenuInflater()
+                .inflate(R.menu.activity_lista_alunos_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo menuInfo =
+                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
+        removeAlunoDaLista(alunoEscolhido);
+        return super.onContextItemSelected(item);
     }
 
     private void configuraFabNovoAluno() {
@@ -80,21 +107,32 @@ public class ListaAlunosActivity extends AppCompatActivity {
     private void configuraLista() {
         configuraAdapter();
         configuraListenerDeCliqueEditaItemLista();
-        configuraListenerdeCliqueExcluiItemLista();
-
+//        configuraListenerdeCliqueExcluiItemLista();
+        /*o comando abaixo espera que se envie uma view
+        como argumento dentro do nosso layout
+        para que se possa utilizar a funcionalidade de contexto
+        como o botão esquerdo do mouse*/
+        registerForContextMenu(listViewDelistaDeAlunos);
     }
 
-    private void configuraListenerdeCliqueExcluiItemLista() {
-        listViewDelistaDeAlunos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Aluno alunoEscolhidoParaExcluir = (Aluno) listViewDelistaDeAlunos.getItemAtPosition(position);
-                dao.remove(alunoEscolhidoParaExcluir);
-                //função para remover itens do adapter
-                adapter.remove(alunoEscolhidoParaExcluir);
-                return true;
-            }
-        });
+// ------xxxx  CÓDIGO PARA O CONTROLE DE CLIQUE LONGO NA LISTVIEW xxxxxx------
+//    private void configuraListenerdeCliqueExcluiItemLista() {
+//        listViewDelistaDeAlunos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                Aluno alunoEscolhidoParaExcluir = (Aluno) listViewDelistaDeAlunos.getItemAtPosition(position);
+//                removeAlunoDaLista(alunoEscolhidoParaExcluir);
+    /*se o return for true, o envento do clique longo
+    executa o que está no Listner e segue*/
+//                return false;
+//            }
+//        });
+//    }
+
+    private void removeAlunoDaLista(Aluno alunoEscolhidoParaExcluir) {
+        dao.remove(alunoEscolhidoParaExcluir);
+        //função para remover itens do adapter
+        adapter.remove(alunoEscolhidoParaExcluir);
     }
 
     private void configuraListenerDeCliqueEditaItemLista() {
