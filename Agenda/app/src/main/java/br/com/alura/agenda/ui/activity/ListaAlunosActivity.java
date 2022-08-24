@@ -24,6 +24,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
     private ListView listViewDelistaDeAlunos;
     private FloatingActionButton botaoNovoAluno;
     private final AlunoDAO dao = new AlunoDAO();
+    private ArrayAdapter<Aluno> adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,8 +35,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
         setTitle(TITULO_APPBAR_LISTA_ALUNO);
         inicializacaoDosCampos();
         configuraFabNovoAluno();
-
-
+        configuraLista();
     }
 
     private void configuraFabNovoAluno() {
@@ -69,23 +69,40 @@ public class ListaAlunosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        configuraLista();
+        atualizaAlunos();
+    }
+
+    private void atualizaAlunos() {
+        adapter.clear();
+        adapter.addAll(dao.todos());
     }
 
     private void configuraLista() {
-        //o comando abaixo adapta uma lista ao componente "listview" fixado no layout
-        List<Aluno> alunos = dao.todos();
-        configuraAdapter(alunos);
-        coonfiguraListenerDeCliquePorItem(alunos);
+        configuraAdapter();
+        configuraListenerDeCliqueEditaItemLista();
+        configuraListenerdeCliqueExcluiItemLista();
 
     }
 
-    private void coonfiguraListenerDeCliquePorItem(List<Aluno> alunos) {
+    private void configuraListenerdeCliqueExcluiItemLista() {
+        listViewDelistaDeAlunos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Aluno alunoEscolhidoParaExcluir = (Aluno) listViewDelistaDeAlunos.getItemAtPosition(position);
+                dao.remove(alunoEscolhidoParaExcluir);
+                //função para remover itens do adapter
+                adapter.remove(alunoEscolhidoParaExcluir);
+                return true;
+            }
+        });
+    }
+
+    private void configuraListenerDeCliqueEditaItemLista() {
         listViewDelistaDeAlunos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Aluno alunoEscolhido = (Aluno) listViewDelistaDeAlunos.getItemAtPosition(position);
-                abreFormularioModoEditaAluno(alunoEscolhido);
+                Aluno alunoEscolhidoParaEditar = (Aluno) listViewDelistaDeAlunos.getItemAtPosition(position);
+                abreFormularioModoEditaAluno(alunoEscolhidoParaEditar);
             }
         });
     }
@@ -101,13 +118,13 @@ public class ListaAlunosActivity extends AppCompatActivity {
         startActivity(vaiParaFormularioActivity);
     }
 
-    private void configuraAdapter(List<Aluno> alunos) {
-        listViewDelistaDeAlunos.setAdapter(new ArrayAdapter<>(
+    private void configuraAdapter() {
+        //o comando abaixo adapta uma lista ao componente "listview" fixado no layout
+        adapter = new ArrayAdapter<>(
                 this,
-                android.R.layout.simple_list_item_1,
-                alunos));
+                android.R.layout.simple_list_item_1);
+        listViewDelistaDeAlunos.setAdapter(adapter);
     }
 
-    ;
  }
 
