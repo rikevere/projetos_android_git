@@ -24,10 +24,13 @@ import br.com.alura.agenda.model.Aluno;
 
 public class FormularioAlunoActivity extends AppCompatActivity {
 
-
+    /*Atributos de Classe do tipo EditText para serem associados
+    * aos EditText do Layout*/
     private EditText campoNome;
     private EditText campoTelefone;
     private EditText campoEmail;
+
+
     private Aluno aluno;
     private List<Aluno> tamanhoListaAlunos;
     final AlunoDAO dao = new AlunoDAO();
@@ -35,7 +38,9 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //o comando a seguir inicializa um novo layout no evento "onCreate"
+        /*by Ludwig - O comando a seguir inicializa/determina um novo
+         layout no evento "onCreate" para esta classe
+        /Ou seja, define qual formulário esta classe vai utilizar*/
         setContentView(R.layout.activity_formulario_aluno);
         setTitle(TITULO_APPBAR_NOVO_ALUNO);
         inicializacaoDosCampos();
@@ -44,12 +49,21 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     }
 
     @Override
+    /* by Ludwig - onCreateOptionsMenu é a criação de um menu de
+    opções, aquele que fica no cabeçalho do formulário
+    ele deve estar associado a um arquivo de layout específico para menus
+    neste projeto, seria o "activity_formulalio_aluno_menu"
+    esta associação é feita através da
+    função "getMenuInflater()" como pode ser visto a seguir.*/
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_formulario_aluno_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
+    /*onOptionsItemSelected é uma função que
+    permite identificar a opção selecionada no menu de opções
+    ela retorna um "int" relativo a posição selecionada*/
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if(itemId == R.id.activiti_formulario_aluno_menu_salvar){
@@ -62,6 +76,10 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         if (dados.hasExtra(CHAVE_ALUNO_LEVA_DADO)) {
             setTitle(TITULO_APPBAR_EDITA_ALUNO);
             aluno = (Aluno) dados.getSerializableExtra(CHAVE_ALUNO_LEVA_DADO);
+            /* by Ludwig - Como o EditText da classe foi associado ao
+            EditText do XML de layou na função "inicializacaoDosCampos()"
+            pelo comando "findViewById()", o componente no layout irá
+            receber toda informação que for enviada para o EditText da Classe*/
             campoNome.setText(aluno.getNome());
             campoTelefone.setText(aluno.getTelefone());
             campoEmail.setText(aluno.getEmail());
@@ -82,21 +100,23 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     }
 
     private void inicializacaoDosCampos() {
-        // esta função é responsável por buscar os componentes desta activity
-        // e referenciá-los nos atributos da classe, para que depois possam ser consumidos
-        // o comando findViewById busca os componentes
-        // dentro do layout inicializado no comando "setContentView"
+        /* by Ludwig -  esta função é responsável por buscar
+        os componentes desta activity e referenciá-los nos
+        atributos da classe, para que depois possam ser consumidos
+        o comando findViewById busca os componentes
+        dentro do layout inicializado no comando "setContentView"*/
         campoNome = findViewById(R.id.activiti_formulario_aluno_nome);
         campoTelefone = findViewById(R.id.activiti_formulario_aluno_telefone);
         campoEmail = findViewById(R.id.activiti_formulario_aluno_email);
-        tamanhoListaAlunos = dao.todos();
     }
 
     private void preencheAluno() {
         String nome = campoNome.getText().toString();
         String telefone = campoTelefone.getText().toString();
         String email = campoEmail.getText().toString();
-        //comentario
+        /*by Ludwig - Nesta função, primeiro os dados do EditText da classe foram
+        * passados para a string e agora são enviados para a classe aluno, sendo na
+        * sequência, enviados para o DAO pela função "finalizaFormulario()" */
         aluno.setNome(nome);
         aluno.setTelefone(telefone);
         aluno.setEmail(email);

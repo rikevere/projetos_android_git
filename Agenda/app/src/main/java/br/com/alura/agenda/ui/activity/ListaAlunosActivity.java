@@ -7,10 +7,12 @@ import static br.com.alura.agenda.ui.activity.ConstantesActivities.TITULO_APPBAR
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.alura.agenda.R;
@@ -30,9 +33,11 @@ public class ListaAlunosActivity extends AppCompatActivity {
     private ListView listViewDelistaDeAlunos;
     private FloatingActionButton botaoNovoAluno;
     private final AlunoDAO dao = new AlunoDAO();
-    private ArrayAdapter<Aluno> adapter;
+    private ListaAlunosAdapter adapterPersonalizado;
+    // private ArrayAdapter<Aluno> adapter;  -- Removido para implementação do BaseAdapter
 
     @Override
+    //onCreate é o momento em que a activity é inicializada pelo Android
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // codigo para chamar uma nova activity (layout de tela)
@@ -45,6 +50,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
     }
 
     @Override
+    //onCreateContextMenu é um menu de contexto que pode ser utilizado em View, como neste caso no ListView
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         /*menu.add("Remover"); ----  Este comando adiciona um context denominado no Listview
@@ -60,12 +66,13 @@ public class ListaAlunosActivity extends AppCompatActivity {
     }
 
     @Override
+    //onContextItemSelected é uma função que permite obter dados do item selecionado no menu de contexto
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.activiti_lista_aluno_remover) {
             AdapterView.AdapterContextMenuInfo menuInfo =
                     (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
+            Aluno alunoEscolhido = adapterPersonalizado.getItem(menuInfo.position);
             removeAlunoDaLista(alunoEscolhido);
         }
         return super.onContextItemSelected(item);
@@ -106,8 +113,8 @@ public class ListaAlunosActivity extends AppCompatActivity {
     }
 
     private void atualizaAlunos() {
-        adapter.clear();
-        adapter.addAll(dao.todos());
+        adapterPersonalizado.clear();
+        adapterPersonalizado.addAll(dao.todos());
     }
 
     private void configuraLista() {
@@ -138,7 +145,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
     private void removeAlunoDaLista(Aluno alunoEscolhidoParaExcluir) {
         dao.remove(alunoEscolhidoParaExcluir);
         //função para remover itens do adapter
-        adapter.remove(alunoEscolhidoParaExcluir);
+        adapterPersonalizado.remove(alunoEscolhidoParaExcluir);
     }
 
     private void configuraListenerDeCliqueEditaItemLista() {
@@ -163,11 +170,42 @@ public class ListaAlunosActivity extends AppCompatActivity {
     }
 
     private void configuraAdapter() {
-        //o comando abaixo adapta uma lista ao componente "listview" fixado no layout
-        adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1);
-        listViewDelistaDeAlunos.setAdapter(adapter);
+        /*o comando abaixo adapta uma lista ao
+         * componente "listview" fixado no layout
+         * desde que conste uma linha de texto somente */
+
+        /* ---   REMOVENDO O CODIGO A SEGUIR PARA TRABALHAR COM
+        *  ---   DUAS LINHAS DE TEXTO EM CADA UMA DO LISTVIEW   */
+
+        //adapter = new ArrayAdapter<>(
+          //      this,
+          //      R.layout.item_aluno);
+        //  listViewDelistaDeAlunos.setAdapter(adapter);
+
+        /* --- ATE AQUI -- */
+
+
+        /* by Ludwig - Para que possamos implementar uma lista
+        * onde cada linha contenha duas linhas de texto, precisamos
+        * criar um novo layou, como item_aluno.xml que "desenha" este
+        * novo formato de exibição. feito isso, associamos o novo layout
+        * ao listView, como visto no código acima. Em seguida, precisamos
+        * criar um novo "BaseAdapter", para acondicionar corretamente
+        * o novo layout a iste Adapter personalizado
+        * a seguir estaremos implementadno os seguintes métodos dentro
+        * classe abstrata "Base Adapter
+        *
+        * getCount() -> representa a quantidade de elementos do adapter;
+        * getItem() -> Retorna o elemento pela posição;
+        * getItemId() -> retornar o id do elemento pela posição;
+        * getView() -> cria a view para cada elemento.
+        */
+
+        adapterPersonalizado = new ListaAlunosAdapter(this);
+
+        listViewDelistaDeAlunos.setAdapter(adapterPersonalizado);
+
+
     }
 
 }
