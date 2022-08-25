@@ -16,8 +16,11 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
+
 import br.com.alura.agenda.R;
 import br.com.alura.agenda.dao.AlunoDAO;
 import br.com.alura.agenda.model.Aluno;
@@ -58,10 +61,13 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo =
-                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
-        removeAlunoDaLista(alunoEscolhido);
+        int itemId = item.getItemId();
+        if (itemId == R.id.activiti_lista_aluno_remover) {
+            AdapterView.AdapterContextMenuInfo menuInfo =
+                    (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
+            removeAlunoDaLista(alunoEscolhido);
+        }
         return super.onContextItemSelected(item);
     }
 
@@ -164,5 +170,5 @@ public class ListaAlunosActivity extends AppCompatActivity {
         listViewDelistaDeAlunos.setAdapter(adapter);
     }
 
- }
+}
 
