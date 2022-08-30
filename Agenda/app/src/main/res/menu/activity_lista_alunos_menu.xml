@@ -4,7 +4,4 @@
     <item
         android:id="@+id/activiti_lista_aluno_remover"
         android:title="Remover" />
-    <item android:title="Item 2 - Menu" />
-    <item android:title="Item 3 - Menu" />
-    <item android:title="Item 4 - Menu" />
 </menu>

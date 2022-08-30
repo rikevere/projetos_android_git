@@ -7,12 +7,9 @@ import static br.com.alura.agenda.ui.activity.ConstantesActivities.TITULO_APPBAR
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -21,12 +18,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.com.alura.agenda.R;
 import br.com.alura.agenda.dao.AlunoDAO;
 import br.com.alura.agenda.model.Aluno;
+import br.com.alura.agenda.ui.adapter.ListaAlunosAdapter;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
@@ -113,8 +108,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
     }
 
     private void atualizaAlunos() {
-        adapterPersonalizado.clear();
-        adapterPersonalizado.addAll(dao.todos());
+        adapterPersonalizado.atualiza(dao.todos());
     }
 
     private void configuraLista() {
@@ -187,13 +181,13 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         /* by Ludwig - Para que possamos implementar uma lista
         * onde cada linha contenha duas linhas de texto, precisamos
-        * criar um novo layou, como item_aluno.xml que "desenha" este
+        * criar um novo layout, como item_aluno.xml que "desenha" este
         * novo formato de exibição. feito isso, associamos o novo layout
         * ao listView, como visto no código acima. Em seguida, precisamos
         * criar um novo "BaseAdapter", para acondicionar corretamente
-        * o novo layout a iste Adapter personalizado
+        * o novo layout a este Adapter personalizado
         * a seguir estaremos implementadno os seguintes métodos dentro
-        * classe abstrata "Base Adapter
+        * classe abstrata "ListaAlunosAdapter"
         *
         * getCount() -> representa a quantidade de elementos do adapter;
         * getItem() -> Retorna o elemento pela posição;
