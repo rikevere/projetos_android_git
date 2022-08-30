@@ -5,7 +5,24 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">#E91E63</item>
+    </style>
+
+<!--    Exemplo de Estilo criado de forma personalizada
+    Pode ser aplicado a todo o aplicativo ou somente a uma activity
+    específica, como no exemplo a seguir
+    <manifest ... >
+    <application ... >
+    <activity android:theme="@style/Theme.AppCompat.Light" ... >
+    </activity>
+    </application>
+    </manifest>-->
+
+    <style name="AppThemeLudwig" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#8BC34A</item>
+        <item name="colorPrimaryDark">#689F38</item>
+        <item name="colorAccent">#03A9F4</item>
     </style>
 
 </resources>

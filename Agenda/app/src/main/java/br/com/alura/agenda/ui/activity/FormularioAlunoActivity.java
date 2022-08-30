@@ -1,16 +1,14 @@
 package br.com.alura.agenda.ui.activity;
 
 import static br.com.alura.agenda.ui.activity.ConstantesActivities.CHAVE_ALUNO_LEVA_DADO;
-import static br.com.alura.agenda.ui.activity.ConstantesActivities.TITULO_APPBAR_EDITA_ALUNO;
-import static br.com.alura.agenda.ui.activity.ConstantesActivities.TITULO_APPBAR_NOVO_ALUNO;
+import static br.com.alura.agenda.ui.activity.ConstantesActivities.TITULO_APPBAR_EDITA_CLIENTE;
+import static br.com.alura.agenda.ui.activity.ConstantesActivities.TITULO_APPBAR_NOVO_CLIENTE;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -42,7 +40,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
          layout no evento "onCreate" para esta classe
         /Ou seja, define qual formulário esta classe vai utilizar*/
         setContentView(R.layout.activity_formulario_aluno);
-        setTitle(TITULO_APPBAR_NOVO_ALUNO);
+        setTitle(TITULO_APPBAR_NOVO_CLIENTE);
         inicializacaoDosCampos();
         Intent dados = getIntent();
         carregaAluno(dados);
@@ -74,7 +72,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
 
     private void carregaAluno(Intent dados) {
         if (dados.hasExtra(CHAVE_ALUNO_LEVA_DADO)) {
-            setTitle(TITULO_APPBAR_EDITA_ALUNO);
+            setTitle(TITULO_APPBAR_EDITA_CLIENTE);
             aluno = (Aluno) dados.getSerializableExtra(CHAVE_ALUNO_LEVA_DADO);
             /* by Ludwig - Como o EditText da classe foi associado ao
             EditText do XML de layou na função "inicializacaoDosCampos()"
@@ -84,7 +82,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
             campoTelefone.setText(aluno.getTelefone());
             campoEmail.setText(aluno.getEmail());
         } else {
-            setTitle(TITULO_APPBAR_NOVO_ALUNO);
+            setTitle(TITULO_APPBAR_NOVO_CLIENTE);
             aluno = new Aluno();
         }
     }

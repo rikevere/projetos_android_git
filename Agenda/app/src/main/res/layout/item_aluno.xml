@@ -10,20 +10,23 @@
         android:id="@+id/item_aluno_nome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         android:textAlignment="textStart"
         android:textColor="@color/design_default_color_on_secondary"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="normal"
         tools:text="Alex" />
 
     <TextView
-        android:id="@+id/item_aluno_telefone"
+        android:id="@+id/item_aluno_contato"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="15sp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:textAlignment="textStart"
         android:textColor="@color/colorPrimary"
         tools:text="46 99911 1465" />

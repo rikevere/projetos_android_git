@@ -2,5 +2,25 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#FF5722</color>
 </resources>
+
+
+<!--
+Uma amostra de paleta primária e secundária
+
+1. Cor primária
+<color name="colorPrimary">#008577</color>
+2. Cor secundária
+<color name="colorPrimaryDark">#00574B</color>
+3. Variantes claras e escuras
+<color name="colorAccent">#FF5722</color>
+
+
+1
+
+COR DA BARRA DE FUNÇÕES DO CELULAR
+
+COR DOS ACESSORIOS
+
+-->

@@ -1,7 +1,7 @@
 package br.com.alura.agenda.ui.activity;
 
 import static br.com.alura.agenda.ui.activity.ConstantesActivities.CHAVE_ALUNO_LEVA_DADO;
-import static br.com.alura.agenda.ui.activity.ConstantesActivities.TITULO_APPBAR_LISTA_ALUNO;
+import static br.com.alura.agenda.ui.activity.ConstantesActivities.TITULO_APPBAR_LISTA_CLIENTE;
 
 
 import android.content.Intent;
@@ -38,7 +38,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
         // codigo para chamar uma nova activity (layout de tela)
         setContentView(R.layout.activity_lista_alunos);
         // a função abaixo cria o título no formulário
-        setTitle(TITULO_APPBAR_LISTA_ALUNO);
+        setTitle(TITULO_APPBAR_LISTA_CLIENTE);
         inicializacaoDosCampos();
         configuraFabNovoAluno();
         configuraLista();

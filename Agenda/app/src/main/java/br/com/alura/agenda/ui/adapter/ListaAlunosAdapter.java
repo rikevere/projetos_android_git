@@ -90,8 +90,8 @@ public class ListaAlunosAdapter extends BaseAdapter {
         * pois está extendendo o get da classe Aluno*/
         nome.setText(alunoDevolvido.getNome());
         /*Agora repetimos o mesmo para o campo Telefone*/
-        TextView telefone = viewCriada.findViewById(R.id.item_aluno_telefone);
-        telefone.setText("Telefone: " + alunoDevolvido.getTelefone()
+        TextView contato = viewCriada.findViewById(R.id.item_aluno_contato);
+        contato.setText("Telefone: " + alunoDevolvido.getTelefone()
                         + "\n" + "E-mail: " + alunoDevolvido.getEmail());
     }
 
