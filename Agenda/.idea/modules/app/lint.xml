@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconXmlAndPng">
+        <ignore path="C:/Users/ricardo.ludwig/AndroidStudioProjects/Agenda/app/src/main/res/drawable-mdpi/ic_action_novo_aluno.png" />
+        <ignore path="C:/Users/ricardo.ludwig/AndroidStudioProjects/Agenda/app/src/main/res/drawable-mdpi/ic_action_novo_aluno.png" />
+    </issue>
+</lint>

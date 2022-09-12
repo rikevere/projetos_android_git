@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -65,12 +66,23 @@ public class ListaAlunosActivity extends AppCompatActivity {
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.activiti_lista_aluno_remover) {
-            AdapterView.AdapterContextMenuInfo menuInfo =
-                    (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Aluno alunoEscolhido = adapterPersonalizado.getItem(menuInfo.position);
-            removeAlunoDaLista(alunoEscolhido);
+            ConfirmaRemocao(item);
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void ConfirmaRemocao(@NonNull MenuItem item) {
+        new AlertDialog
+                .Builder(this)
+                .setTitle("Removendo aluno")
+                .setMessage("Tem certeza que quer remover o aluno?")
+                .setPositiveButton("Sim", null)
+        .setNegativeButton("Não", null)
+        .show();
+        AdapterView.AdapterContextMenuInfo menuInfo =
+                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Aluno alunoEscolhido = adapterPersonalizado.getItem(menuInfo.position);
+        removeAlunoDaLista(alunoEscolhido);
     }
 
     private void configuraFabNovoAluno() {
